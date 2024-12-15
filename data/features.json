@@ -1,0 +1,80 @@
+{
+    "CarFeatures": [
+      {
+        "label": "Touchscreen",
+        "name": "touchscreen",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Bluetooth",
+        "name": "bluetooth",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Navigation System",
+        "name": "navigation_system",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Leather Seats",
+        "name": "leather_seats",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Sunroof",
+        "name": "sunroof",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Backup Camera",
+        "name": "backup_camera",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Blind Spot Monitoring",
+        "name": "blind_spot_monitoring",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Remote Start",
+        "name": "remote_start",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Heated Seats",
+        "name": "heated_seats",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Cooled Seats",
+        "name": "cooled_seats",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Cruise Control",
+        "name": "cruise_control",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Apple CarPlay",
+        "name": "apple_carplay",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Android Auto",
+        "name": "android_auto",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Adaptive Headlights",
+        "name": "adaptive_headlights",
+        "fieldType": "boolean"
+      },
+      {
+        "label": "Keyless Entry",
+        "name": "keyless_entry",
+        "fieldType": "boolean"
+      }
+    ]
+  }
+  

@@ -1,0 +1,115 @@
+{
+    "CarDetails": [
+      {
+        "label": "Listing Title",
+        "name": "listing_title",
+        "fieldType": "text",
+        "required": true,
+        "column": 1,
+        "icon": "car"
+      },
+      {
+        "label": "Model",
+        "name": "model",
+        "fieldType": "text",
+        "required": true,
+        "column": 1,
+        "icon": "car"
+      },
+      {
+        "label": "Year",
+        "name": "year",
+        "fieldType": "number",
+        "required": true,
+        "column": 2,
+        "icon": "calendar"
+      },
+      {
+        "label": "Color",
+        "name": "color",
+        "fieldType": "dropdown",
+        "required": true,
+        "column": 2,
+        "icon": "paint-brush",
+        "options":[
+          "Red", "Green", "Blue", "Yellow", "Purple", "Orange", "Pink", "Brown",
+          "Black", "White", "Gray", "Cyan", "Magenta", "Lime", "Teal", "Navy",
+          "Maroon", "Olive", "Coral", "Gold", "Silver", "Bronze", "Lavender",
+          "Peach", "Plum", "Tan", "Mint", "Beige", "Turquoise", "Crimson", 
+          "Indigo", "Violet", "Salmon", "Khaki", "Chartreuse", "Periwinkle"
+        ]
+      },
+      {
+        "label": "Mileage",
+        "name": "mileage",
+        "fieldType": "number",
+        "required": true,
+        "column": 3,
+        "icon": "tachometer-alt"
+      },
+      {
+        "label": "Gear Type",
+        "name": "gear_type",
+        "fieldType": "dropdown",
+        "required": true,
+        "column": 1,
+        "icon": "gear",
+        "options": [
+          "automatic", 
+          "manual", 
+          "semi-automatic"
+        ]
+      },
+      {
+        "label": "Fuel Type",
+        "name": "fuel_type",
+        "fieldType": "dropdown",
+        "required": true,
+        "column": 1,
+        "icon": "fuel",
+        "options": [
+          "petrol", 
+          "diesel", 
+          "electric", 
+          "hybrid"
+        ]
+      },      
+      {
+        "label": "Price",
+        "name": "price",
+        "fieldType": "number",
+        "required": true,
+        "column": 3,
+        "icon": "dollar-sign"
+      },
+      {
+        "label": "Category",
+        "name": "category",
+        "fieldType": "dropdown",
+        "required": true,
+        "column": 1,
+        "icon": "car",
+        "options": ["SUV", "Sedan", "Truck", "Coupe", "Hatchback", "Hybrid", "Electric", "Convertible"]
+      },
+      {
+        "label": "Condition",
+        "name": "condition",
+        "fieldType": "dropdown",
+        "required": true,
+        "column": 1,
+        "icon": "car",
+        "options": ["new", "used", "certified pre owned"]
+      },
+      {
+        "label": "Listing description",
+        "name": "description",
+        "fieldType": "textarea",
+        "required": true,
+        "column": 3,
+        "icon": "description"
+      }
+    
+      
+    ]
+  }
+  
