@@ -5,11 +5,12 @@ import { NextResponse } from 'next/server';
 
 const isProtectedRoute = createRouteMatcher([
   '/profile(.*)',
+  '/garage(.*)',
   '/car(.*)',
   '/admin(.*)',
   '/api(.*)',
   '/add-car(.*)',
-  '/sign-up(.*)']);
+  '/role(.*)']);
 
 export default clerkMiddleware(async(auth, req) => {
   const {userId} = await auth();
@@ -17,13 +18,14 @@ export default clerkMiddleware(async(auth, req) => {
   if(userId){
     const user = clerkClient.users.getUser(userId);
     const role = (await user).publicMetadata?.isBuyer || (await user).publicMetadata?.isDealer;
-    if(role && req.nextUrl.pathname === '/sign-up'){
+    if(role && req.nextUrl.pathname === '/role'){
       return NextResponse.redirect(new URL('/', req.url));
     }
 
     if(role && !(await user).publicMetadata?.isAdmin && req.nextUrl.pathname === '/admin'){
       return NextResponse.redirect(new URL('/', req.url));
     }
+
   }  
 
   if (isProtectedRoute(req)) {

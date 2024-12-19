@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider signUpForceRedirectUrl={'/sign-up'}>
+    <ClerkProvider signUpForceRedirectUrl={'/role'}>
     <html lang="en">
       <body>
         {children}

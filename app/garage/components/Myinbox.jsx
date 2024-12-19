@@ -14,6 +14,7 @@ function MyInbox() {
   const [sendersProfiles, setSendersProfiles] = useState({});
   const [selectedProfile, setSelectedProfile] = useState([]);
   const [sentMessages , SetSentMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserInbox = async () => {

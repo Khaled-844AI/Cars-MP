@@ -188,7 +188,7 @@ function AddListing() {
                   : <Loader/>}
               </>
             ) : (
-              <>{redirect('/profile')}</>
+              <>{redirect('/garage')}</>
             )}
           </div> : carNotAllowed ? <div className='mt-10 flex justify-center text-red-600 bg-red-300 rounded-lg p-5'>
                 Sorry your car is not allowed to be here

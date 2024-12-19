@@ -5,10 +5,13 @@ import Header from '../../components/Header';
 import { useSearchParams, useParams} from 'next/navigation';
 import CarCard from '../../components/CarCard';
 import { supabase } from '../../lib/initSupabase';
+import Searching from '../../components/Searching';
+import Search from '../../components/Search';
 
 function FillterCar() {
   const [carsQuery, setCarsQuery] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
+  const [loading , setLoading] = useState(true);
   const searchParams = useSearchParams();
   const {type} = useParams();
 
@@ -22,20 +25,25 @@ function FillterCar() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (mode === 'search') {
+      if(mode === 'search') {
         const CarName = searchParams.get('name');
         const Carcategory = searchParams.get('category');
         const Carcondition = searchParams.get('condition');
 
         try {
-          const { data, error } = await supabase
-            .from('CarListing')
-            .select('*, CarImages(*)')
-            .match({
-              listing_title: CarName,
-              category: Carcategory,
-              condition: Carcondition?.toLowerCase(),
-            });
+          let query = supabase.from('CarListing').select('*, CarImages(*)');
+
+          if (CarName !== '') {
+            query = query.eq('listing_title', CarName);
+          }
+          if (Carcategory) {
+            query = query.eq('category', Carcategory);
+          }
+          if (Carcondition) {
+            query = query.eq('condition', Carcondition.toLowerCase());
+          }
+
+          const { data, error } = await query;
 
           if (error) throw error;
           setCarsQuery(data);
@@ -55,6 +63,8 @@ function FillterCar() {
           console.error('Error fetching cars:', error);
         }
       }
+
+      setLoading(false);
     };
 
     fetchData();
@@ -82,6 +92,17 @@ function FillterCar() {
     applyFilters();
   }, [carsQuery, minPrice, maxPrice, minMiles, maxMiles]);
 
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className="flex justify-center items-center min-h-screen">
+          <Searching/>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
@@ -89,6 +110,10 @@ function FillterCar() {
       <div className="container mx-auto">
         <div className="flex justify-center p-5 sm:p-10">
           <h2 className="font-bold text-xl sm:text-3xl text-blue-400">{type} Cars</h2>
+        </div>
+
+        <div className='flex justify-center'>
+            <Search/>
         </div>
 
         {/* Filter inputs */}

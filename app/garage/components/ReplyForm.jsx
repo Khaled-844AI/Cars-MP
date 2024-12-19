@@ -1,4 +1,4 @@
-import {supabase} from './../../../lib/initSupabase';
+import {supabase} from '../../../lib/initSupabase';
 import React from 'react';
 
 function ReplyForm({ profile, message, sender, HandleReplied }) {

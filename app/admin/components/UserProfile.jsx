@@ -27,9 +27,9 @@ function UserProfile({ user , BackTriggered , setFetchedUsers}) {
   useEffect(()=>{
 
     const GetUserCars = async (email)=>{
-        const {Data} = await fetchUserCars(email);
-        if(Data.length == 0) setNoCars(true);
-        setUserCars(Data);
+        const {Cars} = await fetchUserCars(email);
+        if(Cars.length == 0) setNoCars(true);
+        setUserCars(Cars);
         setFetched(true);
     }
 

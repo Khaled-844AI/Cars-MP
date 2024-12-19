@@ -19,6 +19,7 @@ function CarDetails() {
   const [message , setMessage] = useState("");
   const [messageExists , setMessageExists] = useState(false);
   const [isFavorite , setIsFavorite] = useState(false);
+  const [carOwner , setCarOwner] = useState(null);
   const {user} = useUser();
 
   useEffect(() => {
@@ -45,6 +46,22 @@ function CarDetails() {
         if(FavoriteData && FavoriteData[0]){
           setIsFavorite(true)
         }
+
+        const response = await fetch('/api/fetchUsers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ senderEmail: CarData?.user }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const carOwner = await response.json(); 
+
+        if(response.ok){
+          setCarOwner(carOwner);
+        }  
 
       }catch(error){
         console.error("Error fetching if Car is Favorite :",error)
@@ -116,6 +133,7 @@ function CarDetails() {
     }
   }
 
+
   return (
     <>
     <Header />
@@ -123,7 +141,7 @@ function CarDetails() {
     <div className="max-w-9xl mx-auto p-6 mt-10 mb-10 bg-gray-100">
       
       <h1 className="text-4xl font-bold text-center mb-10 text-gray-800">
-        {car.listing_title}
+        {car?.model}
         <div className="flex justify-end">
           <FaStar
             className={`ml-4 text-4xl hover:cursor-pointer ${isFavorite ? "text-yellow-500" : "text-gray-400"}`}
@@ -140,15 +158,17 @@ function CarDetails() {
         <div className="bg-white rounded-lg shadow-lg p-8 mt-10 border border-gray-300 w-full">
         {/*user */}
         <div className="flex items-center mb-10">
-              <img
-                className="w-16 h-16 rounded-full object-cover"
-                src={user.imageUrl}
-                alt={`${user.username}'s profile`}
-              />
+              <a href={'/profile?userId='+carOwner?.id}>
+                  <img
+                    className="w-16 h-16 rounded-full object-cover hover:cursor-pointer"
+                    src={carOwner?.imageUrl}
+                    alt={`${user.username}'s profile`}
+                  />
+              </a>
               <div className="ml-4">
-                <h2 className="text-xl font-semibold">{user.username || 'Anonymous'}</h2>
-                {user?.emailAddresses[0]?.emailAddress &&
-                <p className="text-sm text-gray-600">{user?.emailAddresses[0]?.emailAddress}</p>}
+                <h2 className="text-xl font-semibold">{carOwner?.username || 'Anonymous'}</h2>
+                {carOwner?.emailAddresses[0]?.emailAddress &&
+                <p className="text-sm text-gray-600">{carOwner?.emailAddresses[0]?.emailAddress}</p>}
               </div>
         </div>
 

@@ -32,10 +32,10 @@ function Search() {
 
   return (
 
-    <div className='p-1 md:p-4 bg-white rounded-md md:rounded-full flex-col md:flex md:flex-row
-     gap-10 px-5 items-center w-[60%]'>
+    <div className='p-1 md:p-4  rounded-md md:rounded-full flex-col md:flex md:flex-row
+     gap-10 px-5 items-center w-[60%] bg-gradient-to-br from-gray-300 via-gray-300 to-gray-200'>
         <Select onValueChange={(value) =>HandleOnSelectCondition(value)}>
-            <SelectTrigger className="outline-none md:border-none w-full shadow-none">
+            <SelectTrigger className="outline-none md:border-none w-full shadow-none bg-transparent">
                 <SelectValue placeholder="Condition" />
             </SelectTrigger>
             <SelectContent>
@@ -48,7 +48,7 @@ function Search() {
         <Separator orientation='vertical'/>
 
         <Select onValueChange={(value) =>HandleOnSelectCarName(value)}>
-            <SelectTrigger className=" outline-none md:border-none w-full shadow-none">
+            <SelectTrigger className=" outline-none md:border-none w-full shadow-none bg-transparent">
                 <SelectValue placeholder="Cars"/>
             </SelectTrigger>
             <SelectContent>
@@ -61,7 +61,7 @@ function Search() {
         <Separator orientation='vertical'/>
 
         <Select onValueChange={(value) =>HandleOnSelectCategory(value)}>
-            <SelectTrigger className=" outline-none md:border-none w-full shadow-none">
+            <SelectTrigger className=" outline-none md:border-none w-full shadow-none bg-transparent">
                 <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
@@ -72,7 +72,7 @@ function Search() {
         </Select>
         <div>
             <Link href={'/search?mode=search&name='+ selectedCarName+'&category='+selectedCategory+'&condition='+selectedCondition}>
-                <CiSearch className='text-4xl bg-[#eae7e6] rounded-full p-1 hover:scale-105 transition-all
+                <CiSearch className='text-4xl bg-transparent rounded-full p-1 hover:scale-105 transition-all
                 cursor-pointer'/>
             </Link>
         </div>

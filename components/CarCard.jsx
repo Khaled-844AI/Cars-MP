@@ -17,7 +17,10 @@ function CarCard({ car, Ingarage }) {
 
   return (
     <div className="rounded-xl bg-gray-200 border hover:shadow-xl overflow-hidden max-w-sm mx-auto h-[400px]">
+      {car.condition === 'new' ? 
       <h2 className="absolute m-2 bg-green-500 px-2 rounded-full text-sm pb-1 text-white">{car.condition}</h2>
+      : car.condition === 'used' ? <h2 className="absolute m-2 bg-blue-500 px-2 rounded-full text-sm pb-1 text-white">{car.condition}</h2>
+      :null}
       <img 
         src={car?.CarImages[0]?.imageUrl} 
         alt={`${car.model}`} 

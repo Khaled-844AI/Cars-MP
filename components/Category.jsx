@@ -14,7 +14,7 @@ function Category() {
           <Link key={index} href={'/category/'+item.type}>
           <div 
             key={index} 
-            className='border-2 bg-gray-200 border-solid border-gray rounded-xl p-2 flex flex-col items-center shadow-lg mb-5
+            className='border-2 bg-gray-200 hover:bg-gradient-to-br from-gray-400 via-gray-300 to-gray-200 border-solid border-gray rounded-xl p-2 flex flex-col items-center shadow-lg mb-5
             hover:scale-110 transition-transform duration-200 cursor-pointer hover:text-primary'
           >
             <img 

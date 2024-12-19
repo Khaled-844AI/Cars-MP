@@ -47,7 +47,6 @@ function Page() {
   };
 
   const HandleUser = async (isBuyer , isDealer)=>{
-      console.log(user);
       const response = await fetch('/api/UpdateUser', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

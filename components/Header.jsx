@@ -29,21 +29,33 @@ function Header() {
               </li>
             </Link>
 
-          <li className="text-lg font-semibold hover:scale-150 transition-transform cursor-pointer hover:text-primary">
-            Search
-          </li>
-
-            <Link href="/new-car">
+            <Link href="/shop">
               <li className="text-lg font-semibold hover:scale-150 transition-transform cursor-pointer hover:text-primary">
-                New
+                Shop
               </li>
             </Link>
 
-            {user?.publicMetadata?.isDealer && <Link href="/profile" onClick={() => setIsMenuOpen(false)}>
-              <li className="text-lg font-semibold hover:scale-105 transition-transform cursor-pointer hover:text-primary">
+            {user?.publicMetadata?.isDealer && <Link href="/garage" onClick={() => setIsMenuOpen(false)}>
+              <li className="text-lg font-semibold hover:scale-150 transition-transform cursor-pointer hover:text-primary">
                 Garage
               </li>
             </Link>}
+
+            {isSignedIn && (
+              <Link
+                href={"/profile?userId=" + user?.id}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <li className="text-lg font-semibold hover:scale-150 transition-transform cursor-pointer hover:text-primary">
+                  Profile{" "}
+                  {!user?.publicMetadata?.isAdmin &&
+                    !user?.publicMetadata?.isDealer && (
+                      <span className="bg-red-500 w-2 h-2 rounded-full inline-block animate-pulse"></span>
+                    )}
+                </li>
+              </Link>
+            )}
+
 
           {isAdmin && (
             <Link href="/admin">

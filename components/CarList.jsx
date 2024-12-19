@@ -27,6 +27,7 @@ function CarList() {
         const { data, error } = await supabase
       .from('CarListing')
       .select('*,CarImages(*)')
+      .order('createdOn', { ascending: false })
 
       console.log(data,error)
       setCarList(data)

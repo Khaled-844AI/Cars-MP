@@ -9,27 +9,30 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import {storage} from '../../../lib/firbase';
 import { deleteObject, ref } from 'firebase/storage';
 import {supabase} from './../../../lib/initSupabase';
+import Loader from '../../../components/Loader2';
 
 function MyListing() {
   const { user } = useUser();
   const [carList, setCarList] = useState([]);
   const InGarage = true;
+  const [fetched , setFetched] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  console.log(user)
 
   useEffect(() => {
-    if (user) UserCarListing();
+    if (user && !fetched) UserCarListing();
   }, [user]);
+  
 
   const UserCarListing = async () => {
     const {data , error} = await supabase.from('CarListing')
       .select('*,CarImages(*)')
       .eq('user', user?.primaryEmailAddress?.emailAddress)
       .order('id', { ascending: false })
-
-
-    console.log(data)
     setCarList(data)
+    setFetched(true);
+    setLoading(false);
+    
   };
 
   const HandleRemoveCar = async (e, item) => {
@@ -54,6 +57,16 @@ function MyListing() {
       console.error("Error deleting car:", error);
     }
   };
+
+  if (loading) {
+    return (
+      <>
+        <div className="flex justify-center items-centermt mt-20">
+          <Loader/>
+        </div>
+      </>
+    );
+  }
   
 
   return (
