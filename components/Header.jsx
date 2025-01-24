@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { RedirectToSignIn, SignInButton, UserButton, useUser } from '@clerk/nextjs';
+import { SignInButton, UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import { FiMenu, FiX } from 'react-icons/fi'; // Icons for the hamburger menu
+import ChatButton from "./../components/Chat"
 
 function Header() {
   const { user, isSignedIn } = useUser();
@@ -49,12 +50,19 @@ function Header() {
                 <li className="text-lg font-semibold hover:scale-150 transition-transform cursor-pointer hover:text-primary">
                   Profile{" "}
                   {!user?.publicMetadata?.isAdmin &&
-                    !user?.publicMetadata?.isDealer && (
+                    !user?.publicMetadata?.isDealer &&
+                    !user?.publicMetadata?.isBuyer && (
                       <span className="bg-red-500 w-2 h-2 rounded-full inline-block animate-pulse"></span>
                     )}
                 </li>
               </Link>
             )}
+
+          {isSignedIn && <Link href="/conversations" onClick={() => setIsMenuOpen(false)}>
+              <li className="text-lg font-semibold cursor-pointer hover:text-primary">
+                <ChatButton/>
+              </li>
+            </Link>}  
 
 
           {isAdmin && (

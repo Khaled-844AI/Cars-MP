@@ -17,7 +17,6 @@ function Profile() {
           <Tabs defaultValue="my-listing" className="w-full">
             <TabsList className='w-full flex justify-center mb-6 gap-5'>
               <TabsTrigger value="my-listing">My Cars</TabsTrigger>
-              <TabsTrigger value="inbox">Inbox</TabsTrigger>
             </TabsList>
             <TabsContent value="my-listing"> <MyListing/> </TabsContent>
             <TabsContent value="inbox"> <MyInbox/> </TabsContent>

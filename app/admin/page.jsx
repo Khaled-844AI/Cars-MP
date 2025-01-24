@@ -16,12 +16,10 @@ function Page() {
   const handleButtonClick = (id) => {
     setActiveButton(id);
 
-    // Correct indexing issue
     const selectedButton = buttons.find((button) => button.id === id);
     setUsers(selectedButton ? selectedButton.content : null);
   };
 
-  // Define buttons array with components and their IDs
   const buttons = [
     {
       id: 1,

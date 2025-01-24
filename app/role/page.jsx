@@ -4,7 +4,7 @@ import { Button } from '../../components/ui/button';
 import { useUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import { IoIosArrowBack } from "react-icons/io";
-import { UpdateUser } from '../../lib/User';
+
 
 import {
   Carousel,

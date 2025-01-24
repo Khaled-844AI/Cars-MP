@@ -1,14 +1,17 @@
 'use client'
 
 import { React, useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '../../components/Header';
 import { useUser } from '@clerk/nextjs';
 import { Separator } from "../../components/ui/separator"
 import { FaCheck } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import Loader from './../../components/Loader'
-import {fetchCarData , fetchCarMessages, fetchFavoriteCar, SendMessage, AddtoFavorite} from '../../lib/actions'
+import {fetchCarData , fetchCarMessages, fetchFavoriteCar, AddtoFavorite} from '../../lib/actions'
+import { api } from "@/convex/_generated/api";
+import { useMutationState } from '@/hooks/useMutationState';
+
 
 function CarDetails() {
   const [car, setCar] = useState(null);
@@ -21,6 +24,13 @@ function CarDetails() {
   const [isFavorite , setIsFavorite] = useState(false);
   const [carOwner , setCarOwner] = useState(null);
   const {user} = useUser();
+  const router = useRouter();
+  const { mutate: createConversation , pending }= useMutationState(
+    api.conversations.createConversation
+  );
+
+
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -95,27 +105,6 @@ function CarDetails() {
     );
   }
 
-  const HandleMessageSubmit = async (event) => {
-    event.preventDefault();
-
-    const {error} = await SendMessage(
-      event.target.message.value,
-      user?.emailAddresses[0]?.emailAddress,
-      car?.user,
-      car?.id,
-      messageExists,
-    )
-
-    if(!error){
-      setSent(true);
-    }
-
-  };
-
-  const HandelMessageChange = (e)=>{
-    setMessage(e.target.value)
-  }
-
   const HandleAddFavorite = async (carId)=>{
 
     const {error , wasFavorite} = await AddtoFavorite(
@@ -132,6 +121,22 @@ function CarDetails() {
       console.error(error);
     }
   }
+
+
+
+
+  const HandleStartConversation = async () => {
+    
+    try {
+      const conversation = await createConversation({
+        participants: [user?.id, carOwner?.id],
+      });
+
+      router.push(`/conversations/conversation?id=${conversation}`);
+    } catch (error) {
+      console.error("Error starting conversation:", error);
+    }
+  };
 
 
   return (
@@ -155,7 +160,7 @@ function CarDetails() {
 
         
   
-        <div className="bg-white rounded-lg shadow-lg p-8 mt-10 border border-gray-300 w-full">
+        <div className="bg-gray-200 rounded-lg shadow-lg p-8 mt-10 border border-gray-300 w-full">
         {/*user */}
         <div className="flex items-center mb-10">
               <a href={'/profile?userId='+carOwner?.id}>
@@ -264,44 +269,18 @@ function CarDetails() {
               )}
             </div>
 
-          </div>
-  
-          {!sent ? (
-            <form
-              className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-4"
-              onSubmit={HandleMessageSubmit}
-            >
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Message
-                </label>
-                <textarea
-                  rows="4"
-                  id="message"
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder={"Leave a message"}
-                  value={message.length > 0 ? message : ""}
-                  onChange={HandelMessageChange}
-                  required
-                />
-              </div>
-              <div className="w-full flex justify-center p-5 mt-5">
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  Leave a Message
-                </button>
-              </div>
-            </form>
-          ) : (
-            <div className="w-full flex justify-center p-5 mt-5">
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg" role="alert">
-                <span className="block sm:inline font-bold">Message sent successfully!</span>
-              </div>
             </div>
-          )}
-        </div>
+                {carOwner.id !== user.id && <div className='flex justify-center mt-10'>
+      
+                    <button
+                      onClick={HandleStartConversation}
+                      className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                      Start Converstion
+                    </button>
+
+                </div>}    
+            </div>
       </div>
     </div>
   </>
