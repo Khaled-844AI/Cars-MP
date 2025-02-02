@@ -132,7 +132,7 @@ function CarDetails() {
         participants: [user?.id, carOwner?.id],
       });
 
-      router.push(`/conversations/conversation?id=${conversation}`);
+      router.push(`/conversations/conversation?id=${conversation._id}`);
     } catch (error) {
       console.error("Error starting conversation:", error);
     }

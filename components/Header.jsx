@@ -3,17 +3,17 @@
 import React, { useState } from 'react';
 import { SignInButton, UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
-import { FiMenu, FiX } from 'react-icons/fi'; // Icons for the hamburger menu
+import { FiMenu, FiX } from 'react-icons/fi'; 
 import ChatButton from "./../components/Chat"
 
 function Header() {
   const { user, isSignedIn } = useUser();
   const isAdmin = user?.publicMetadata?.isAdmin;
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for menu toggle
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 
   return (
-    <header className="bg-white shadow-sm p-2 no-scrollbar">
+    <header className="bg-transparent shadow-sm p-2 no-scrollbar">
       <div className="max-w-8xl mx-auto flex justify-between items-center">
 
         <Link href="/">

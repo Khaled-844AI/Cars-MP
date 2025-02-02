@@ -90,7 +90,7 @@ function UserProfile({ user , BackTriggered , setFetchedUsers}) {
 
                 <div className="mt-10">
                   <div className="border rounded-lg overflow-hidden">
-                    <Table className="table-auto w-full">
+                  <Table className="table-auto w-full">
                       <TableHeader className="bg-gray-300">
                         <TableRow>
                           <TableHead className="w-[5%]"></TableHead>

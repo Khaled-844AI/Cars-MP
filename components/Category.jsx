@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 function Category() {
   return (
-    <div className='mt-40'>
+    <div className='mt-60'>
       <h2 className='font-bold text-3xl text-center mb-6'>Categories</h2>
       <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-6 px-4 sm:px-20'>
         {data.Category.map((item, index) => (

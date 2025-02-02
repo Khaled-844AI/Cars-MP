@@ -4,7 +4,6 @@ import React from 'react';
 import Header from '../../components/Header';
 import MyListing from './components/Mylisting';
 import  {Tabs, TabsContent, TabsList, TabsTrigger}  from "../../components/ui/tabs";
-import MyInbox from './components/Myinbox';
 
 
 
@@ -19,8 +18,6 @@ function Profile() {
               <TabsTrigger value="my-listing">My Cars</TabsTrigger>
             </TabsList>
             <TabsContent value="my-listing"> <MyListing/> </TabsContent>
-            <TabsContent value="inbox"> <MyInbox/> </TabsContent>
-            <TabsContent value="profile"></TabsContent>
           </Tabs>
   
             

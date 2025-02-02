@@ -16,6 +16,7 @@ import { FaTrash } from "react-icons/fa6";
 import { IoCarSportSharp } from "react-icons/io5";
 import UserProfile from './UserProfile';
 import Loader from './../../../components/Loader';
+import  AlertAccountCard  from './../../../components/AlertCard';
 
 function Users() {
   const [fetched, setFetched] = useState(false);
@@ -23,13 +24,14 @@ function Users() {
   const [error, setError] = useState(null);
   const [profileOpen, setProfileOpen] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   useEffect(() => {
     const getUsers = async () => {
       try {
         if (!fetched) {
           const { users } = await GetUsers();
-
           console.log(users);
           setFetched(true);
           setFetchedUsers(users);
@@ -40,15 +42,16 @@ function Users() {
       }
     };
 
-    getUsers();
+    if (!fetched)
+      getUsers();
   }, [fetched]);
 
   const HandleRemoveUser = async (userId) => {
     const response = await RemoveUser(userId);
-    console.log(response);
     if (response.success) {
       setFetchedUsers(fetchedUsers.filter((user) => user?.id !== userId));
     }
+    setShowAlert(false);
   };
 
   const HandleUserProfile = (user) => {
@@ -64,8 +67,18 @@ function Users() {
     }
   };
 
+  const confirmDelete = (user) => {
+    setUserToDelete(user);
+    setShowAlert(true);
+  };
+
+  const cancelDelete = () => {
+    setShowAlert(false);
+    setUserToDelete(null);
+  };
+
   return (
-    <div className="p-4">
+    <div className="p-4 relative">
       {error ? (
         <div className="text-red-500">Error: {error}</div>
       ) : !profileOpen ? (
@@ -131,7 +144,7 @@ function Users() {
                             {!user?.role?.isAdmin && (
                               <Button
                                 className="bg-red-400 hover:bg-red-600 w-[40%] rounded-xl text-sm"
-                                onClick={() => HandleRemoveUser(user?.id)}
+                                onClick={() => confirmDelete(user)}
                               >
                                 <FaTrash />
                               </Button>
@@ -170,6 +183,19 @@ function Users() {
         </>
       ) : (
         <UserProfile user={selectedUser} BackTriggered={BackTriggered} setFetchedUsers={setFetched} />
+      )}
+
+      {showAlert && (
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <AlertAccountCard
+              onConfirm={() => HandleRemoveUser(userToDelete?.id)}
+              onCancel={cancelDelete}
+              toDelete={"user"}
+            />
+          </div>
+        </>
       )}
     </div>
   );

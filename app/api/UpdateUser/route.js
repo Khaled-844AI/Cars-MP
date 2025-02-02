@@ -10,7 +10,6 @@ export async function POST(req){
         });
       }
 
-
     const data = isBuyer ? {isBuyer : true} : isDealer ? {isDealer : true} : null;
     try{
         const response = await clerkClient.users.updateUserMetadata(userId, {
@@ -20,14 +19,11 @@ export async function POST(req){
             status: 200,
         });
     }catch(error){
-        console.log(error);
-    }  
-    
-    return new Response(JSON.stringify({ message: 'Server Error' }), {
+      return new Response(JSON.stringify({ message: error}), {
         status: 500,
     });
+    }  
     
-
 }
 
 /*

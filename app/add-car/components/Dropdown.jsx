@@ -11,9 +11,11 @@ import {
 
 function Dropdown({item, handleFormChange, carInfo}) {
   return (
-    <div>
-        <Select  onValueChange={(value)=>handleFormChange(item.name, value)} required={item.required}>
-        <SelectTrigger className="w-full">
+        <Select 
+         onValueChange={(value)=>handleFormChange(item.name, value)}
+         required={item.required}
+         >
+        <SelectTrigger className="w-full bg-transparant">
             <SelectValue placeholder={carInfo?.[item.name]} />
         </SelectTrigger>
         <SelectContent>
@@ -23,8 +25,6 @@ function Dropdown({item, handleFormChange, carInfo}) {
             }
         </SelectContent>
         </Select>
-
-    </div>
   )
 }
 

@@ -5,10 +5,7 @@ export async function POST(req) {
 
     const { senderEmail } = await req.json();
 
-    console.log(senderEmail);
-
     if (!senderEmail) {
-      console.log('yes');
       return new Response(JSON.stringify({ message: 'Email is required' }), {
         status: 400,
       });
@@ -26,10 +23,8 @@ export async function POST(req) {
       });
     }
   } catch (error) {
-
-    console.error('Error fetching user profile:', error);
     return new Response(
-      JSON.stringify({ error: 'Failed to fetch user profile' }),
+      JSON.stringify({ error: 'Failed to fetch user profile :'+error }),
       { status: 500 }
     );
   }

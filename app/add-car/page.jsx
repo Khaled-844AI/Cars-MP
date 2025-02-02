@@ -10,7 +10,6 @@ import { Separator } from '../../components/ui/separator';
 import { Checkbox } from '../../components/ui/checkbox';
 import { Button } from '../../components/ui/button'
 import UploadImage from './components/UploadImage';
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
@@ -45,7 +44,6 @@ function AddListing() {
       return null
       
     });
-    console.log(features.CarFeatures.filter((feature)=>(feature.name === featureName))[0].name);
     SetSelectedFeatures((prevFeature) => [...prevFeature , features.CarFeatures.filter((feature)=>(feature.name === featureName))[0].name])
 
   };
@@ -65,7 +63,6 @@ function AddListing() {
   useEffect(() => {
     if (mode === 'edit' && recordId !== null) {
       const error = getRecordListing(recordId);
-      console.log(error);
     }
     
     
@@ -76,6 +73,7 @@ function AddListing() {
       [name]: value,
     }));
   };
+
 
   const handleCarAllowedChange = (isAllowed)=>{
       setCarAllowed(isAllowed);

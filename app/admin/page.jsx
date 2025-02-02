@@ -103,7 +103,17 @@ function Page() {
           ))}
         </div>
 
-        <div className="w-[80%] h-[90vh] bg-gray-200 rounded-3xl flex items-center justify-center">
+        <div
+         className="w-[80%] h-[90vh] bg-gray-200 rounded-3xl flex items-center justify-center"
+         style={activeButton === 1 ? {
+          backgroundImage:
+            activeButton === 1
+              ? "linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('https://st.depositphotos.com/1005171/3214/i/950/depositphotos_32140039-stock-photo-concept-of-modern-car-engine.jpg')" 
+              : 'none',
+          backgroundColor: activeButton !== 1 ? '#f3f4f6' : 'transparent',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        } : null}>
           <div className="w-full h-full overflow-y-auto no-scrollbar p-6">
             {users}
           </div>
