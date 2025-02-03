@@ -110,4 +110,10 @@ function Conversations() {
   );
 }
 
-export default Conversations;
+export default function conversations() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Conversations />
+    </Suspense>
+  );
+}

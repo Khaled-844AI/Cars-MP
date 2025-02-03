@@ -154,4 +154,10 @@ function FillterCar() {
   );
 }
 
-export default FillterCar;
+export default function Fillter() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <FillterCar/>
+    </Suspense>
+  );
+}

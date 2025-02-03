@@ -274,4 +274,12 @@ function CarDetails() {
   );
 }
 
-export default CarDetails;
+export default function Car() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CarDetails />
+    </Suspense>
+  );
+}
+
+
