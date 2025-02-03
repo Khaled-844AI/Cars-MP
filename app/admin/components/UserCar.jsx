@@ -33,7 +33,6 @@ function UserCar({ car, setCarDetailsOpened, setUserCars, userCars }) {
         : prevFeatures.filter((feature) => feature !== featureName)
     );
   };
-  console.log(editedCar);
 
   const HandleRemoveCar = async (item) => {
     try {

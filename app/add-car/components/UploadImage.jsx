@@ -7,6 +7,7 @@ function UploadImage({ uploadImagesTriggered, setLoader, setUploadDone, carInfo 
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
 
+  
   const onImageSelected = async (event) => {
     setLoader(true);
     const files = Array.from(event.target.files);
