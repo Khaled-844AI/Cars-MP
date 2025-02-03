@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { FaCheck, FaTrash } from "react-icons/fa";
+import {  FaTrash } from "react-icons/fa";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { deleteObject, ref } from "firebase/storage";

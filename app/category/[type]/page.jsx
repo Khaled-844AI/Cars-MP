@@ -5,7 +5,6 @@ import Header from '../../../components/Header';
 import { useSearchParams, useParams} from 'next/navigation';
 import CarCard from '../../../components/CarCard';
 import { supabase } from '../../../lib/initSupabase';
-import Search from '../../../components/Search';
 
 function FillterCar() {
   const [carsQuery, setCarsQuery] = useState([]);

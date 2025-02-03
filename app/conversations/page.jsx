@@ -8,12 +8,10 @@ import { useMutationState } from './../../hooks/useMutationState';
 import { api } from "./../../convex/_generated/api";
 import { GetUser } from '../../lib/User';
 import { useRouter } from 'next/navigation';
-import Loader from '../../components/Loader2';
 
 function Conversations() {
 
   const {user} = useUser();
-  const [fetched, setFetched] = useState(false);
   const [convUsers , setConvUsers] = useState(null);
   const router = useRouter();
   const {mutate: getConversations, pending} = useMutationState(
@@ -24,7 +22,6 @@ function Conversations() {
 
     const fetchUserConversations = async (userId)=>{
       const users = [];
-      console.log("yes")
       const conversations = await getConversations({
         userId: userId,
       });
@@ -46,7 +43,7 @@ function Conversations() {
       fetchUserConversations(user?.id);
     }
 
-  }, [convUsers, fetched, user]);
+  }, [convUsers, user]);
 
   const HandleSelectConversation = (conversationId)=>{
     router.push(`/conversations/conversation?id=${conversationId}`);

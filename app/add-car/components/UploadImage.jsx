@@ -6,7 +6,6 @@ import { UploadImages , RemoveImage} from '../../../lib/ImageActions';
 function UploadImage({ uploadImagesTriggered, setLoader, setUploadDone, carInfo , onCarAllowedChange, NotAllowedTriggered}) {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
-  const [carAllowed , setCarAllowed] = useState(false);
 
   const onImageSelected = async (event) => {
     setLoader(true);
@@ -26,11 +25,9 @@ function UploadImage({ uploadImagesTriggered, setLoader, setUploadDone, carInfo 
         });
         const predicted =  response.data.predicted
         if(predicted == 'modern car'){
-          setCarAllowed(true);
           onCarAllowedChange(true);
         }else{
           NotAllowedTriggered(true)
-          setCarAllowed(false);
         }
         
       } catch (error) {

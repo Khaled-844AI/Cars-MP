@@ -8,7 +8,7 @@ import { Separator } from "../../components/ui/separator"
 import { FaCheck } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import Loader from './../../components/Loader'
-import {fetchCarData , fetchCarMessages, fetchFavoriteCar, AddtoFavorite} from '../../lib/actions'
+import {fetchCarData , fetchFavoriteCar, AddtoFavorite} from '../../lib/actions'
 import { api } from "@/convex/_generated/api";
 import { useMutationState } from '@/hooks/useMutationState';
 
@@ -16,16 +16,13 @@ import { useMutationState } from '@/hooks/useMutationState';
 function CarDetails() {
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [sent , setSent] = useState(false);
   const searchParams = useSearchParams();
   const carId = searchParams.get('id');
-  const [message , setMessage] = useState("");
-  const [messageExists , setMessageExists] = useState(false);
   const [isFavorite , setIsFavorite] = useState(false);
   const [carOwner , setCarOwner] = useState(null);
   const {user} = useUser();
   const router = useRouter();
-  const { mutate: createConversation , pending }= useMutationState(
+  const { mutate: createConversation}= useMutationState(
     api.conversations.createConversation
   );
 

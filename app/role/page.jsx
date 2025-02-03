@@ -10,44 +10,29 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel';
 
 function Page() {
-  const [activeIndex, setActiveIndex] = useState(0); 
   const { user } = useUser();
   const [api, setApi] = useState(null); 
   const [current, setCurrent] = useState(0); 
-  const [count, setCount] = useState(0); 
 
   useEffect(() => {
     if (!api) return;
 
-    // Initialize count and current item
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap());
-
-    // Update current item on "select" event
     api.on('select', () => {
       setCurrent(api.selectedScrollSnap());
     });
   }, [api]);
 
-  const goToNext = () => {
-    if (api) {
-      api.scrollTo(current + 1); // Move to the next item
-    }
-  };
-
   const goToPrevious = () => {
     if (api) {
-      api.scrollTo(current - 1); // Move to the previous item
+      api.scrollTo(current - 1); 
     }
   };
 
   const HandleUser = async (isBuyer , isDealer)=>{
-      const response = await fetch('/api/UpdateUser', {
+      await fetch('/api/UpdateUser', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user?.id , isBuyer : isBuyer, isDealer: isDealer}),
@@ -55,15 +40,6 @@ function Page() {
       redirect('/');
   }
 
-  
-
-  const HandleUserSelected = () => {
-    redirect('/');
-  };
-
-  const HandleCarDealerSelected = () => {
-    setActiveIndex(1); // Move to the second carousel item
-  };
 
   return (
     <div className="flex flex-col w-full h-screen items-center justify-center">
