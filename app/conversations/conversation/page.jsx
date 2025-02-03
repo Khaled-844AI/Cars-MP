@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Header from "../../../components/Header";
 import { BsFillChatRightFill } from "react-icons/bs";
 import { useUser } from '@clerk/nextjs';

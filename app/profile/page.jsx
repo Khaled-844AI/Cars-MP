@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GetUser } from '../../lib/User';
