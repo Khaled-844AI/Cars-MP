@@ -14,7 +14,6 @@ function FillterCar() {
 
   const mode = searchParams.get('mode');
 
-  console.log(type);
 
 
   const [minPrice, setMinPrice] = useState('');

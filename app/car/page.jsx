@@ -26,9 +26,6 @@ function CarDetails() {
     api.conversations.createConversation
   );
 
-
-
-
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -39,14 +36,6 @@ function CarDetails() {
         const {CarData } = await fetchCarData(carId);
 
         if(CarData) setCar(CarData);
-        
-        const { MessageData } = await fetchCarMessages(carId , user?.emailAddresses[0]?.emailAddress);
-        console.log(MessageData)
-
-        if(MessageData && MessageData[0]){
-          setMessage(MessageData[0].message)
-          setMessageExists(true)
-        }
         
         const { FavoriteData } = await fetchFavoriteCar(carId , user?.emailAddresses[0]?.emailAddress);
 
