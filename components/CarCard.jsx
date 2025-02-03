@@ -7,7 +7,7 @@ import React from "react";
 import { useState } from "react";
 import Link from "next/link";
 
-function CarCard({ car, Ingarage }) {
+function CarCard({ car }) {
   const [isEnlarged, setIsEnlarged] = useState(false);
 
   const toggleImageSize = () => {
