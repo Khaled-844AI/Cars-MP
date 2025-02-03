@@ -5,7 +5,6 @@ import { IoMdSettings } from "react-icons/io";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,

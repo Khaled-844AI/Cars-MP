@@ -25,7 +25,7 @@ function MyListing() {
   
 
   const UserCarListing = async () => {
-    const {data , error} = await supabase.from('CarListing')
+    const {data} = await supabase.from('CarListing')
       .select('*,CarImages(*)')
       .eq('user', user?.primaryEmailAddress?.emailAddress)
       .order('id', { ascending: false })

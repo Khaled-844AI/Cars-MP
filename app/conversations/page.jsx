@@ -14,7 +14,7 @@ function Conversations() {
   const {user} = useUser();
   const [convUsers , setConvUsers] = useState(null);
   const router = useRouter();
-  const {mutate: getConversations, pending} = useMutationState(
+  const {mutate: getConversations} = useMutationState(
     api.conversations.getConversations
   )
 

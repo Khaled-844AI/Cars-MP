@@ -80,6 +80,8 @@ function UserCar({ car, setCarDetailsOpened, setUserCars, userCars }) {
   const HandleSelectSave = async () => {
     try {
       const { CarImages, ...carWithoutImages } = editedCar;
+
+      console.log(CarImages);
   
       const response = await EditCar("edit", carWithoutImages?.id, carWithoutImages, selectedFeatures, carWithoutImages?.user);
   

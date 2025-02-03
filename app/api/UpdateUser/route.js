@@ -12,7 +12,7 @@ export async function POST(req){
 
     const data = isBuyer ? {isBuyer : true} : isDealer ? {isDealer : true} : null;
     try{
-        const response = await clerkClient.users.updateUserMetadata(userId, {
+        await clerkClient.users.updateUserMetadata(userId, {
         publicMetadata: data,
         })
         return new Response(JSON.stringify({ message: 'User was Updated' }), {

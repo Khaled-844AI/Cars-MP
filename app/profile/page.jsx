@@ -24,7 +24,7 @@ const ProfilePage = () => {
   const [fav, setFav] = useState(false); 
   const userId = searchParams.get('userId');
   const { user } = useUser();
-  const { mutate: createConversation, pending } = useMutationState(
+  const { mutate: createConversation } = useMutationState(
     api.conversations.createConversation
   );
   const classNameFav = "mb-10 p-7 border rounded-2xl text-lg bg-gradient-to-b font-bold from-blue-500 to-cyan-200 text-transparent text-gray-700 ";

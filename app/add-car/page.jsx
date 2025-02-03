@@ -62,7 +62,7 @@ function AddListing() {
   
   useEffect(() => {
     if (mode === 'edit' && recordId !== null) {
-      const error = getRecordListing(recordId);
+        getRecordListing(recordId);
     }
     
     
