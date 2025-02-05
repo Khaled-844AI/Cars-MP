@@ -2,15 +2,7 @@
 
 main page:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![image alt](https://github.com/Khaled-844AI/Cars-MP/blob/master/Screenshot%202025-02-05%20205402.png?raw=true)
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
