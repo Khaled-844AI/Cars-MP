@@ -1,129 +1,168 @@
-import React, { useState, useEffect, useRef } from "react";
-import { api } from "../../../convex/_generated/api";
-import { useMutationState } from "../../../hooks/useMutationState";
+'use client'
 
-function Conversation({ conversationId, user, messages: initialMessages, destinatedUser }) {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState(initialMessages || []);
-  const { mutate: sendMessage, pending } = useMutationState(api.messages.createMessage);
+import { useEffect, useState, useCallback } from 'react';
 
-  const messagesEndRef = useRef(null);
 
+export default function Conversation({
+  conversationId,
+  user,
+  messages: initialMessages = [],
+  destinatedUser,
+  socketRef
+}) {
+  const [messages, setMessages] = useState(initialMessages);
+  const [messageInput, setMessageInput] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [error, setError] = useState(null);
+
+  console.log(destinatedUser);
+
+  // Initialize messages and handle updates
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages.length]);
+    setMessages(initialMessages);
+  }, [initialMessages]);
 
+  // Handle incoming messages
   useEffect(() => {
-    if(!pending)
-      setMessages(initialMessages || []);
-  }, [initialMessages.length]);
+    if (!socketRef) return;
 
-  const handleSendMessage = async () => {
-    if (message.length > 0) {
-      const newMessage = {
-        conversationId,
-        senderId: user?.id,
-        sentAt: Date.now(),
-        text: message,
-      };
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
-      setMessage("")
-
-      try {
-        await sendMessage({
-          conversationId,
-          senderId: user?.id,
-          text: message,
-        });
-      } catch (error) {
-        console.error("Failed to send message:", error);
-        initialMessages.pop(newMessage);
+    const handleNewMessage = (message) => {
+      // Only add if it belongs to this conversation
+      const isCurrentConversation = messages.some(msg => 
+        msg.senderId === message.senderId && 
+        msg.timestamp === message.timestamp
+      );
+      
+      if (!isCurrentConversation) {
+        setMessages(prev => [...prev, message]);
       }
+    };
+
+    socketRef.on('message_received', handleNewMessage);
+
+    return () => {
+      socketRef.off('message_received', handleNewMessage);
+    };
+  }, [socketRef, messages]);
+
+  const sendMessage = useCallback(async () => {
+    if (!messageInput.trim()) return;
+    if (!socketRef?.connected) {
+      socketRef?.connect();
+    }
+
+    setIsSending(true);
+    setError(null);
+
+    try {
+      const messageObj = {
+        conversationId,
+        text: messageInput,
+        senderId: user.id,
+        timestamp: Date.now()
+      };
+
+      // Optimistic update
+      setMessageInput('');
+
+      // Send to server
+      socketRef.emit('new_message', messageObj, (ack) => {
+        if (!ack.success) {
+          setError(ack.error || 'Failed to send message');
+          // Revert optimistic update if failed
+          setMessages(prev => prev.filter(msg => msg.timestamp !== messageObj.timestamp));
+        }
+      });
+    } catch (err) {
+      setError('Failed to send message');
+      console.error('Send message error:', err);
+    } finally {
+      setIsSending(false);
+    }
+  }, [messageInput, socketRef, conversationId, user.id]);
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
     }
   };
 
   return (
-    <section className="flex-1 flex flex-col">
-      {/* Chat Header */}
-      <div className="p-4 flex border-b bg-white border-gray-500 items-center">
-        {conversationId && (
+    <div className="flex flex-col w-full h-full">
+      {/* Conversation Header */}
+      <div className="p-4 border-b border-gray-200 bg-white">
+        <div className="flex items-center">
           <img
-            className="w-10 h-10 rounded-full object-cover mr-3"
+            className="w-10 h-10 rounded-full object-cover"
             src={destinatedUser?.imageUrl}
             alt={`${destinatedUser?.username}'s profile`}
           />
-        )}
-        <div className="flex flex-col">
-        <h3 className="text-lg font-semibold">{destinatedUser?.username}</h3>
+          <div className="ml-3">
+            <p className="text-lg font-semibold">{destinatedUser?.username}</p>
+            <p className="text-xs text-gray-500">Online</p>
+          </div>
         </div>
       </div>
-
-      {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
-        <div className="space-y-4">
-          {messages?.map((msg, key) => {
-            // Format the timestamp
-            const formattedDate = new Date(msg?.sentAt).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            });
-
-            return (
-              <div
-                key={key}
-                className={`flex ${
-                  msg?.senderId === user?.id ? "justify-end" : "justify-start"
-                }`}
+      
+      {/* Messages Area */}
+      <div className="flex-grow overflow-y-auto p-4 bg-gray-100">
+        {messages.length === 0 ? (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-gray-500">No messages yet. Start the conversation!</p>
+          </div>
+        ) : (
+          messages.map((message, index) => (
+            <div 
+              key={`${message.timestamp}-${index}`}
+              className={`mb-4 flex ${message.senderId === user.id ? 'justify-end' : 'justify-start'}`}
+            >
+              <div 
+                className={`p-3 rounded-lg max-w-xs lg:max-w-md ${message.senderId === user.id 
+                  ? 'bg-blue-500 text-white' 
+                  : 'bg-white border border-gray-200'}`}
               >
-                <div
-                  className={`${
-                    msg?.senderId === user?.id
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-blue-600"
-                  } rounded-xl p-2 max-w-xs`}
-                >
-                  <div className="flex flex-col">
-                    <p className="break-words whitespace-normal">{msg?.text}</p>
-                    <span
-                      className={`text-[10px]  ${
-                        msg?.senderId === user?.id ? "self-start text-gray-900" : "self-end text-gray-400"
-                      }`}
-                    >
-                      {formattedDate}
-                    </span>
-                  </div>
-                </div>
+                <p>{message.text}</p>
+                <p className="text-xs opacity-70 mt-1">
+                  {new Date(message.timestamp).toLocaleTimeString([], { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                  })}
+                </p>
               </div>
-            );
-          })}
-          {/* Empty div to act as the scroll target */}
-          <div ref={messagesEndRef} />
-        </div>
+            </div>
+          ))
+        )}
       </div>
-
-      {/* Chat Input */}
-      <div className="p-4">
-        <div className="flex items-center">
+      
+      {/* Error message */}
+      {error && (
+        <div className="px-4 py-2 bg-red-100 text-red-700 text-sm">
+          {error}
+        </div>
+      )}
+      
+      {/* Message Input */}
+      <div className="p-4 border-t border-gray-200 bg-white">
+        <div className="flex">
           <input
-            onChange={(e) => setMessage(e.target.value)}
-            value={message}
             type="text"
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+            onKeyDown={handleKeyPress}
+            disabled={isSending}
+            className="flex-grow p-2 border rounded-l-lg focus:outline-none disabled:opacity-50"
             placeholder="Type a message..."
-            className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
-            onClick={handleSendMessage}
-            className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            disabled={pending}
+            onClick={sendMessage}
+            disabled={isSending || !messageInput.trim()}
+            className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {pending ? "Sending..." : "Send"}
+            {isSending ? 'Sending...' : 'Send'}
           </button>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
-
-export default Conversation;
