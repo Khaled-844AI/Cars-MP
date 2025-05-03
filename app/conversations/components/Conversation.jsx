@@ -15,8 +15,6 @@ export default function Conversation({
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState(null);
 
-  console.log(destinatedUser);
-
   // Initialize messages and handle updates
   useEffect(() => {
     setMessages(initialMessages);
